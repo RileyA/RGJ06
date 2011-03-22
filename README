@@ -2,6 +2,10 @@ This is/will be my Reddit Game Jam #6 entry.
 
 Expect really, really ugly code.
 
+I'll be using my own engine ("Oryx Engine"), which is GPL'd
+and has been up on my github for a while. I'll be using Ogre3d,
+OpenAL, bullet, Chaiscript and OIS through the engine.
+
 (C) Copyright Riley Adams 2011
 
 This is free software: you can redistribute it and/or modify
