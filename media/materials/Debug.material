@@ -1,0 +1,15 @@
+material DebugGrid
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture debug.png
+				tex_address_mode wrap
+			}
+		}
+	}
+}
