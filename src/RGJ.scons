@@ -1,5 +1,5 @@
 import os
-source = ['RGJ.cpp','MenuState.cpp','PlayState.cpp']
+source = ['RGJ.cpp','MenuState.cpp','PlayState.cpp','Console.cpp']
 libs = ['OryxEngine','ALSubsystem','OgreSubsystem','ChaiscriptSubsystem','OISSubsystem','ENetSubsystem','BulletSubsystem']
 if os.name == 'nt':
 	env = Environment(ENV=os.environ,tools=['mingw','g++'],CXX=['g++'],CPPDEFINES=['WIN32'])

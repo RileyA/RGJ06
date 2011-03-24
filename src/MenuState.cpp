@@ -2,6 +2,7 @@
 #include "PlayState.h"
 #include "OryxEventHandler.h"
 #include "OryxMessageAny.h"
+#include "Console.h"
 
 namespace RGJ
 {
@@ -10,6 +11,7 @@ namespace RGJ
 	
 	void MenuState::init()
 	{
+		Console* mConsole = new Console();
 		mGfx = dynamic_cast<OgreSubsystem*>(mEngine->getSubsystem("OgreSubsystem"));
 		mAudio = dynamic_cast<ALSubsystem*>(mEngine->getSubsystem("ALSubsystem"));
 		mScript = dynamic_cast<ChaiscriptSubsystem*>(mEngine->getSubsystem("ChaiscriptSubsystem"));
@@ -61,5 +63,4 @@ namespace RGJ
 	{
 
 	}
-	//-----------------------------------------------------------------------
 }
