@@ -16,6 +16,9 @@ namespace RGJ
 		virtual void update(Real delta);
 		virtual void deinit();
 
+		void clickedPlay(const Message& m);
+		void clickedQuit(const Message& m);
+
 	private:
 
 		OgreSubsystem* mGfx;

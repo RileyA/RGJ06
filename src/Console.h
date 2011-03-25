@@ -22,10 +22,10 @@ namespace RGJ
 
 		void addOutput(String out);
 
+		bool mActive;
 		size_t mOutputSize;
 	
-		// The last few entries
-		std::deque<String> mOutput;
+		std::deque<String> mHistory;
 
 		// plaintext command (the actual caption might 
 		// contain markup data, so this saves some trouble)
@@ -33,6 +33,7 @@ namespace RGJ
 
 		StaticText* mInputText;
 		std::vector<StaticText*> mOutputText;
+		GUIEmpty* mParent;
 		GUIScreen* mScreen;
 
 		OgreSubsystem* mGfx;
