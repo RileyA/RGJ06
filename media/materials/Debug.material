@@ -13,3 +13,23 @@ material DebugGrid
 		}
 	}
 }
+
+// heh...
+material MeinKraft
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			alpha_rejection greater 100
+
+			texture_unit
+			{
+				filtering none
+				texture terrain.png
+				tex_address_mode wrap
+			}
+		}
+	}
+}

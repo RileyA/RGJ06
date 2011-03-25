@@ -1,6 +1,6 @@
 import os
-source = ['RGJ.cpp','MenuState.cpp','PlayState.cpp','Console.cpp']
-libs = ['OryxEngine','ALSubsystem','OgreSubsystem','ChaiscriptSubsystem','OISSubsystem','ENetSubsystem','BulletSubsystem']
+source = ['RGJ.cpp','MenuState.cpp','PlayState.cpp','Console.cpp','Chunk.cpp','ChunkCoords.cpp','ChunkManager.cpp','ExplosionManager.cpp','FPSCamera.cpp','PhysicsBlock.cpp']
+libs = ['OryxEngine','ALSubsystem','OgreSubsystem','ChaiscriptSubsystem','OISSubsystem','ENetSubsystem','BulletSubsystem','noise']
 if os.name == 'nt':
 	env = Environment(ENV=os.environ,tools=['mingw','g++'],CXX=['g++'],CPPDEFINES=['WIN32'])
 	env['ENV']['LD_RUN_PATH']='.'
