@@ -16,10 +16,11 @@ namespace RGJ
 
 		void update(Real delta);
 		void charPressed(const Message& message);
+		void catchLog(const Message& message);
 
 	private:
 
-		void addOutput();
+		void addOutput(String out);
 
 		size_t mOutputSize;
 	
