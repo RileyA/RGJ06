@@ -15,7 +15,7 @@ namespace RGJ
 		mAudio = dynamic_cast<ALSubsystem*>(mEngine->getSubsystem("ALSubsystem"));
 		mScript = dynamic_cast<ChaiscriptSubsystem*>(mEngine->getSubsystem("ChaiscriptSubsystem"));
 		mInput = dynamic_cast<OISSubsystem*>(mEngine->getSubsystem("OISSubsystem"));
-		mInput->initInput(mGfx->getWindowHandle(), false);
+		mInput->initInput(mGfx->getWindowHandle(), true);
 
 		mGfx->setBackgroundColor(Colour(0.f,0.f,0.05f));
 
@@ -70,10 +70,6 @@ namespace RGJ
 		txt->setPosition(Vector2(0.5405f,0.832f));
 		txt->setHoverColour(Colour(0.9f,0.4f,0.2f));
 		txt->getSignal("clicked")->addListener(createSlot("clickedQuit",this,&MenuState::clickedQuit));
-
-		//rect = new GUIRectangle(scrn->getRootElement(0),"Coloredrect01",Colour(1,0,0,0.5),
-		//Colour(0.3,0.6,0.9,0.8),4.0,0,Vector2(0.1f,0.1f),Vector2(0.1,0.1));
-		//rect->setSprite("test");
 
 		EventHandler::getDestination("OISSubsystem")->getSignal("mouseMovedAbs")
 			->addListener(scrn->getSlot("moveCursor"));

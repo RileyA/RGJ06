@@ -14,7 +14,7 @@ namespace RGJ
 		mAudio = dynamic_cast<ALSubsystem*>(mEngine->getSubsystem("ALSubsystem"));
 		mScript = dynamic_cast<ChaiscriptSubsystem*>(mEngine->getSubsystem("ChaiscriptSubsystem"));
 		mInput = dynamic_cast<OISSubsystem*>(mEngine->getSubsystem("OISSubsystem"));
-		mInput->initInput(mGfx->getWindowHandle(), false);
+		mInput->initInput(mGfx->getWindowHandle(), true);
 		mGfx->setBackgroundColor(Colour(0.f,0.f,0.05f));
 		Console* mConsole = new Console();
 	}
