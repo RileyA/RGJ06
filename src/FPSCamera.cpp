@@ -63,7 +63,7 @@ namespace Oryx
 
 	void FPSCamera::look(const Message& msg)
 	{
-		if(const MessageAny<Vector2>* ms = message_cast<Vector2>(msg))
+		/*if(const MessageAny<Vector2>* ms = message_cast<Vector2>(msg))
 		{
 			mYawNode->yaw(ms->data.x*-0.5f);
 
@@ -76,7 +76,7 @@ namespace Oryx
 				actualPitch = -80.f - mPitch;
 			mPitch += actualPitch;
 			mPitchNode->pitch(actualPitch);
-		}
+		}*/
 	}
 
 	Vector3 FPSCamera::getPosition()

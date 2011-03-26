@@ -19,6 +19,8 @@ namespace RGJ
 		virtual void update(Real delta);
 		virtual void deinit();
 
+		virtual void mouseMove(const Message& message);
+
 	private:
 
 		OgreSubsystem* mGfx;
@@ -32,6 +34,8 @@ namespace RGJ
 
 		BasicCharacterController* mPlayer;
 		SplineTunnel* mTunnel;
+
+		Vector3 mPlayerPos;
 	};
 }
 

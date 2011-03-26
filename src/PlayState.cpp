@@ -29,11 +29,16 @@ namespace RGJ
 		mSpline->addPoint(Vector3(0,2,0));
 		mSpline->addPoint(Vector3(0,3,0));
 		delete mSpline;*/
+	
+		mPlayerPos = Vector3(0,0,0);
 		
 		mTunnel = new SplineTunnel();
 		//Console* mConsole = new Console();
 		mCamera = new FPSCamera();
 		mExplosions = new ExplosionManager;
+
+		EventHandler::getDestination("OISSubsystem")->getSignal("mouseMoved")
+			->addListener(createSlot("mouseMoved",this,&PlayState::mouseMove));
 	}
 	//-----------------------------------------------------------------------
 	
@@ -44,8 +49,16 @@ namespace RGJ
 		if(mInput->wasKeyPressed("KC_HOME"))
 			mInput->toggleMouseGrab();	
 
-		mCamera->mPosNode->setPosition(mTunnel->getPlayerPosition());
-		
+		Vector3 d = mTunnel->getPlayerDirection();
+
+		mCamera->mCamera->setDirection(d);
+
+		Quaternion plane = Vector3::NEGATIVE_UNIT_Z.getRotationTo(d);
+
+		Vector3 offset = plane * mPlayerPos;
+
+		mCamera->mPosNode->setPosition(mTunnel->getPlayerPosition()+offset);
+
 		//Vector3 move = 
 		//	mCamera->getDirection()*((mInput->isKeyDown("KC_S")*-1+mInput->isKeyDown("KC_W"))*1) +
 		//	mCamera->mCamera->getAbsoluteRight()*(mInput->isKeyDown("KC_D")-mInput->isKeyDown("KC_A"));
@@ -57,4 +70,16 @@ namespace RGJ
 		
 	}
 	//-----------------------------------------------------------------------	
+
+	void PlayState::mouseMove(const Message& message)
+	{
+		if(const Vector2* v = unpackMsg<Vector2>(message))
+		{
+			mPlayerPos += Vector3(v->x/100.f,v->y/100.f,0);
+			Real len = mPlayerPos.normalize();
+			len = std::min(4.1f,len);
+			mPlayerPos *= len;
+			//std::cout<<v->x<<" "<<v->y<<"\n";
+		}
+	}
 }

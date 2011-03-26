@@ -19,6 +19,7 @@ namespace RGJ
 		void generate();
 
 		Vector3 getPlayerPosition();
+		Vector3 getPlayerDirection();
 
 		Spline* getSpline(){return mSpline;};
 
@@ -43,8 +44,8 @@ namespace RGJ
 		static const int RINGS_PER_CHUNK = 30;
 
 		static const int PTS_TO_GENERATE_AHEAD_OF_TIME = 25000;
-		static const Real RING_RADIUS = 10.f; // 5m radius for each ring
-		static const int VERTS_PER_RING = 12;
+		static const Real RING_RADIUS = 5.f; // 5m radius for each ring
+		static const int VERTS_PER_RING = 32;
 		// a mesh representing a length of the tunnel
 		class Chunk
 		{

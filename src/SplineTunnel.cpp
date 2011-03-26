@@ -9,13 +9,13 @@ namespace RGJ
 		mSpline->setAutoCalc(false);
 		mLastPoint = Vector3(0,0,0);
 		mPlayerPos = 0.f;
-		mPlayerSpeed = 300.f;
+		mPlayerSpeed = 5.f;
 		mSpline->addPoint(mLastPoint);
 		mCurrentChunk = 0;
 		++mPtsGenerated;
 		for(int i = 0; i < PTS_TO_GENERATE_AHEAD_OF_TIME; ++i)
 		{
-			Vector3 newPoint = Vector3(mRand.gen(-1,1),mRand.gen(-1,1),-2.5f);
+			Vector3 newPoint = Vector3(mRand.gen(-1,1),mRand.gen(-1,1),-5.5f);
 			newPoint.normalize();
 			newPoint*=POINT_SPACING;
 			mLastPoint += newPoint;
@@ -33,6 +33,7 @@ namespace RGJ
 	void SplineTunnel::update(Real delta)
 	{
 		mPlayerPos += mPlayerSpeed * delta;
+		mPlayerSpeed += delta;
 		//std::cout<<mPlayerPos<<"\n";
 		generate();// try and generate a bit more if need be...
 	}
@@ -57,8 +58,6 @@ namespace RGJ
 		Real length = POINT_SPACING * mPtsGenerated;
 		while(mCurrentChunk < (mPlayerPos/RING_OFFSET)+7)
 		{
-			//if(mChunks.size()>0)
-			//	return;
 			if(mChunks.size()<NUM_CHUNKS)
 			{
 				mChunks.push_back(new Chunk());
@@ -66,12 +65,10 @@ namespace RGJ
 			}
 			else
 			{
-				std::cout<<"reused mesh...\n";
 				mChunks.push_back(mChunks.front());
 				mChunks.pop_front();
 				mChunks.back()->gen((mCurrentChunk)*RINGS_PER_CHUNK*RING_SPACING, *this, mPtsGenerated);
 			}
-			std::cout<<"Created Chunk: "<<(mCurrentChunk)*RINGS_PER_CHUNK*RING_SPACING<<"\n";
 			++mCurrentChunk;
 		}
 	}
@@ -156,11 +153,6 @@ namespace RGJ
 			priorPos = temp;
 		}
 
-		//std::cout<<dist+(RINGS_PER_CHUNK)*RING_SPACING<<"\n";
-		std::cout<<"start: "<<dist<<"  "<<" length "<<(RINGS_PER_CHUNK)*RING_SPACING<<"\n";
-
-		// build mesh data...
-		
 		// build the actual mesh:
 		if(!mMesh)
 		{
@@ -173,5 +165,25 @@ namespace RGJ
 			mMesh->update(d);
 		}
 		mMesh->setPosition(rootPos);
+	}
+
+	Vector3 SplineTunnel::getPlayerDirection()
+	{
+		Real length = POINT_SPACING * mPtsGenerated;
+
+		Real lastLastRing = floor((mPlayerPos-RING_SPACING)/RING_SPACING);
+		Real lastRing = floor(mPlayerPos/RING_SPACING);
+		Real nextRing = ceil(mPlayerPos/RING_SPACING);
+
+		Real interpolation = (nextRing - lastRing)/RING_SPACING;
+
+		Vector3 lastLastPos = lastLastRing < 0 ? Vector3(0,0,RING_SPACING) : mSpline->interpolate(lastLastRing/length);
+		Vector3 lastPos = mSpline->interpolate(lastRing/length);
+		Vector3 nextPos = mSpline->interpolate(nextRing/length);
+
+		Vector3 lastDir = lastPos - lastLastPos;
+		Vector3 nextDir = nextPos = lastPos;
+
+		return nextDir * interpolation + nextDir * (1-interpolation);
 	}
 }
