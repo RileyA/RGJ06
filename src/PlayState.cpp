@@ -19,7 +19,7 @@ namespace RGJ
 
 		mInput->initInput(mGfx->getWindowHandle(), false);
 		mGfx->setBackgroundColor(Colour(0.f,0.f,0.05f));
-		//mGfx->setLinearFog(5.f,30.f,Colour(0.f,0.f,0.05f));
+		mGfx->setLinearFog(5.f,65.f,Colour(0.f,0.f,0.05f));
 		mBullet->startSimulation();
 		mBullet->setGravity(Vector3(0,-10,0));
 

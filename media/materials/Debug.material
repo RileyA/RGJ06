@@ -9,6 +9,8 @@ material DebugGrid
 			{
 				texture debug.png
 				tex_address_mode wrap
+				filtering anisotropic
+				max_anisotropy 16
 			}
 		}
 	}
