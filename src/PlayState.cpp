@@ -33,7 +33,7 @@ namespace RGJ
 		mPlayerPos = Vector3(0,0,0);
 		
 		mTunnel = new SplineTunnel();
-		//Console* mConsole = new Console();
+		Console* mConsole = new Console();
 		mCamera = new FPSCamera();
 		mExplosions = new ExplosionManager;
 

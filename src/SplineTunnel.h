@@ -55,13 +55,36 @@ namespace RGJ
 			~Chunk();
 
 			// builds the mesh from a given distance on
-			void gen(Real dist, SplineTunnel& spline, unsigned int ptgen);
+			void gen(Real dist, SplineTunnel& spline, unsigned int ptgen,Rand* mRand);
 
 		private:
 
 			Mesh* mMesh;
 			static Vector3 last;
 
+
+			// it's like inception, but with classes
+			class Laser
+			{
+			public:
+
+				Laser(Mesh* m)
+				{
+					mMesh = m;
+				}
+
+				void reactivate(Vector3 pos,Real roll, bool blue)
+				{
+					mMesh->setPosition(pos);
+					mMesh->roll(roll);
+					mMesh->setMaterialName(blue ? "Laser" : "Laser_Orange");
+					mMesh->setScale(Vector3(RING_RADIUS*2,RING_RADIUS*2,RING_RADIUS*2));
+				}
+
+				Mesh* mMesh;
+
+			};
+			std::vector<Laser> mLasers;
 		};
 
 		// there should ideally only be a couple of these

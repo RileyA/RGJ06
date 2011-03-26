@@ -77,7 +77,7 @@ namespace RGJ
 			->addListener(scrn->getSlot("click"));
 		EventHandler::getDestination("OISSubsystem")->getSignal("released_MB_Left")
 			->addListener(scrn->getSlot("release"));
-		Console* mConsole = new Console();
+		//Console* mConsole = new Console();
 	}
 	//-----------------------------------------------------------------------
 	

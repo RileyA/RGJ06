@@ -45,13 +45,13 @@ namespace RGJ
 			if(mChunks.size()<NUM_CHUNKS)
 			{
 				mChunks.push_back(new Chunk());
-				mChunks.back()->gen((mCurrentChunk)*RINGS_PER_CHUNK*RING_SPACING, *this, mPtsGenerated);
+				mChunks.back()->gen((mCurrentChunk)*RINGS_PER_CHUNK*RING_SPACING, *this, mPtsGenerated,&mRand);
 			}
 			else
 			{
 				mChunks.push_back(mChunks.front());
 				mChunks.pop_front();
-				mChunks.back()->gen((mCurrentChunk)*RINGS_PER_CHUNK*RING_SPACING, *this, mPtsGenerated);
+				mChunks.back()->gen((mCurrentChunk)*RINGS_PER_CHUNK*RING_SPACING, *this, mPtsGenerated,&mRand);
 			}
 			++mCurrentChunk;
 		}
@@ -82,8 +82,9 @@ namespace RGJ
 
 	Vector3 SplineTunnel::Chunk::last = Vector3(0,0,0);
 
-	void SplineTunnel::Chunk::gen(Real dist, SplineTunnel& spline, unsigned int ptgen)
+	void SplineTunnel::Chunk::gen(Real dist, SplineTunnel& spline, unsigned int ptgen,Rand* mRand)
 	{
+		unsigned int lase = 0;
 		MeshData d = MeshData();
 		d.addTexcoordSet();
 
@@ -132,13 +133,34 @@ namespace RGJ
 			}
 
 
-			if(rand()%5==0)
+			if(mRand->gen(0,2)==0)
 			{
-				Mesh* m = Engine::getPtr()->getSubsystem("OgreSubsystem")->castType<OgreSubsystem>()->createMesh("Laser.mesh");
+				if(mLasers.size()<=lase)
+				{
+					Mesh* m = Engine::getPtr()->getSubsystem("OgreSubsystem")->
+						castType<OgreSubsystem>()->createMesh("Laser.mesh");
+					Engine::getPtr()->getSubsystem("OgreSubsystem")
+						->castType<OgreSubsystem>()->getRootSceneNode()->addChild(m);
+					mLasers.push_back(Laser(m));
+					mLasers.back().reactivate(rootPos+myPos+Vector3(mRand->gen(-3,3),mRand->gen(-3,3),0),mRand->gen(0,359)
+						,mRand->gen(0,1)==0);
+					++lase;
+				}
+				else
+				{
+					mLasers[lase].reactivate(rootPos+myPos+Vector3(mRand->gen(-3,3),mRand->gen(-3,3),0),mRand->gen(0,359)
+						,mRand->gen(0,1)==0);
+					++lase;
+					std::cout<<"reused one!\n";
+				}
+				/*Mesh* m = Engine::getPtr()->getSubsystem("OgreSubsystem")->castType<OgreSubsystem>()->createMesh("Laser.mesh");
 				Engine::getPtr()->getSubsystem("OgreSubsystem")->castType<OgreSubsystem>()->getRootSceneNode()->addChild(m);
 				m->roll(rand()%360);
-				m->setPosition(rootPos + myPos);
+				m->setPosition(rootPos + myPos + Vector3(mRand->gen(-3,3),mRand->gen(-3,3),0));
 				m->setScale(Vector3(RING_RADIUS*2,RING_RADIUS*2,RING_RADIUS*2));
+
+				if(mRand->gen(0,1)==0)
+					m->setMaterialName("Laser_Orange");*/
 			}
 
 			myRingDir = nextRingDir;
