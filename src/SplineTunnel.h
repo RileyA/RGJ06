@@ -63,7 +63,7 @@ namespace RGJ
 			static Vector3 last;
 
 
-			// it's like inception, but with classes
+			// must... gooo... deeepeeerrr...
 			class Laser
 			{
 			public:
@@ -75,12 +75,28 @@ namespace RGJ
 
 				void reactivate(Vector3 pos,Real roll, bool blue)
 				{
+					mMesh->setVisible(true);
 					mMesh->setPosition(pos);
 					mMesh->roll(roll);
 					mMesh->setMaterialName(blue ? "Laser" : "Laser_Orange");
 					mMesh->setScale(Vector3(RING_RADIUS*2,RING_RADIUS*2,RING_RADIUS*2));
+					actve = true;
 				}
 
+				bool collide(Vector3 player)
+				{
+					if(!active)
+						return false;
+
+					Sphere sph(0.4f,player);
+					Ray r;
+					r.origin = mMesh.getPosition() + mMesh.getOrientation() * Vector3::UNIT_Y * 15;
+					r.direction = mMesh.getOrientation() * Vector3::NEGATIVE_UNIT_Y;
+					if(sph.intersects(r))
+						return true;
+				}
+				
+				bool active = false;
 				Mesh* mMesh;
 
 			};
