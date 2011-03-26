@@ -10,6 +10,7 @@ namespace RGJ
 		mPlayerPos = 0.f;
 		mPlayerSpeed = 20.f;
 		mSpline->addPoint(mLastPoint);
+		mCurrentChunk = 0;
 		++mPtsGenerated;
 		for(int i = 0; i < PTS_TO_GENERATE_AHEAD_OF_TIME; ++i)
 		{
@@ -53,6 +54,14 @@ namespace RGJ
 			me->setPosition(mLastPoint);
 			Engine::getPtr()->getSubsystem("OgreSubsystem")->castType<OgreSubsystem>()->getRootSceneNode()->addChild(me);
 			++mPtsGenerated;
+		}
+
+		Real length = POINT_SPACING * mPtsGenerated;
+		while(mCurrentChunk < (length/RING_SPACING)/RINGS_PER_CHUNK + 2)
+		{
+			mChunks.push_back(new Chunk());
+			mChunks.back()->gen((mChunks.size()-1)*RINGS_PER_CHUNK*RING_SPACING, *mSpline);
+			std::cout<<"Created Chunk: "<<(mChunks.size()-1)*RINGS_PER_CHUNK*RING_SPACING<<"\n";
 		}
 	}
 
