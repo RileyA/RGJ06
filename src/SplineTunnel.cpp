@@ -131,6 +131,16 @@ namespace RGJ
 				lastIndex = j;
 			}
 
+
+			if(rand()%5==0)
+			{
+				Mesh* m = Engine::getPtr()->getSubsystem("OgreSubsystem")->castType<OgreSubsystem>()->createMesh("Laser.mesh");
+				Engine::getPtr()->getSubsystem("OgreSubsystem")->castType<OgreSubsystem>()->getRootSceneNode()->addChild(m);
+				m->roll(rand()%360);
+				m->setPosition(rootPos + myPos);
+				m->setScale(Vector3(RING_RADIUS*2,RING_RADIUS*2,RING_RADIUS*2));
+			}
+
 			myRingDir = nextRingDir;
 			Vector3 temp = myPos;
 			myPos = nextPos;
@@ -153,21 +163,26 @@ namespace RGJ
 
 	Vector3 SplineTunnel::getPlayerDirection()
 	{
-		Real length = POINT_SPACING * mPtsGenerated;
+		/*Real length = POINT_SPACING * mPtsGenerated;
 
-		Real lastLastRing = floor((mPlayerPos-RING_SPACING)/RING_SPACING);
-		Real lastRing = floor(mPlayerPos/RING_SPACING);
-		Real nextRing = ceil(mPlayerPos/RING_SPACING);
+		Real factor = 10.f;
 
-		Real interpolation = (nextRing - lastRing)/RING_SPACING;
+		Real lastLastRing = floor((mPlayerPos-RING_SPACING*factor)/(RING_SPACING*factor));
+		Real lastRing = floor(mPlayerPos/(RING_SPACING*factor));
+		Real nextRing = ceil(mPlayerPos/(RING_SPACING*factor));
 
-		Vector3 lastLastPos = lastLastRing < 0 ? Vector3(0,0,RING_SPACING) : mSpline->interpolate(lastLastRing/length);
+		Real interpolation = (nextRing - lastRing)/(RING_SPACING*factor);
+
+		Vector3 lastLastPos = lastLastRing < 0 ? Vector3(0,0,RING_SPACING*factor) : mSpline->interpolate(lastLastRing/length);
 		Vector3 lastPos = mSpline->interpolate(lastRing/length);
 		Vector3 nextPos = mSpline->interpolate(nextRing/length);
 
 		Vector3 lastDir = lastPos - lastLastPos;
-		Vector3 nextDir = nextPos = lastPos;
-
-		return nextDir * interpolation + nextDir * (1-interpolation);
+		Vector3 nextDir = nextPos = lastPos;*/
+		Real length = POINT_SPACING * mPtsGenerated;
+		Vector3 nextDir = mSpline->interpolate((mPlayerPos+10.f)/length);
+		Vector3 out = nextDir - getPlayerPosition();
+		out.normalize();
+		return out;
 	}
 }
