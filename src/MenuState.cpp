@@ -24,7 +24,8 @@ namespace RGJ
 		GUIScreen* scrn = mGfx->getGUI()->createScreen(mGfx->getMainViewport(),"TechDemo","Test");
 		scrn->getRootElement(0)->setAspectRatio(4,3);
 
-		StaticText* txt = new StaticText(scrn->getRootElement(0),"Title",0,20,Vector2(0.3f,0.05f),Vector2(0.4,1.f/20.f),"Untitled");
+		StaticText* txt = new StaticText(scrn->getRootElement(0),"Title",0,20,
+			Vector2(0.3f,0.05f),Vector2(0.4,1.f/20.f),"Tunnel of love");
 		txt->setColour(Colour(1.f,1.f,1.f));
 		txt->setAlign(GA_CENTER);
 

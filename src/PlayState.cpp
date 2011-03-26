@@ -45,6 +45,9 @@ namespace RGJ
 		StaticText* txt = new StaticText(scrn->getRootElement(0),
 			"Title",0,20,Vector2(0.02f,0.02f),Vector2(0.4,1.f/20.f),"Distance: 0");
 
+		rect = new GUIRectangle(scrn->getRootElement(0),"Coloredrect01",Colour(0.2,0.2,0.5,0.f),
+			Colour(0.1,0.1,0.1,0.8),4.0,0,Vector2(0.2f,0.8f),Vector2(0.6f,0.05f));
+
 		mPlayerPos = Vector3(0,0,0);
 		
 		mTunnel = new SplineTunnel();
