@@ -41,3 +41,14 @@ material MeinKraft
 		}
 	}
 }
+
+material Ring
+{
+	technique
+	{
+		pass
+		{
+			diffuse 1 0 0 0
+		}
+	}
+}

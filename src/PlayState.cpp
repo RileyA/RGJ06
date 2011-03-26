@@ -23,7 +23,15 @@ namespace RGJ
 		mBullet->startSimulation();
 		mBullet->setGravity(Vector3(0,-10,0));
 
-		Console* mConsole = new Console();
+		/*Spline* mSpline = new Spline();
+		mSpline->addPoint(Vector3(0,0,0));
+		mSpline->addPoint(Vector3(0,1,0));
+		mSpline->addPoint(Vector3(0,2,0));
+		mSpline->addPoint(Vector3(0,3,0));
+		delete mSpline;*/
+		
+		mTunnel = new SplineTunnel();
+		//Console* mConsole = new Console();
 		mCamera = new FPSCamera();
 		mExplosions = new ExplosionManager;
 	}
@@ -34,7 +42,9 @@ namespace RGJ
 		if(mInput->isKeyDown("KC_ESCAPE"))
 			sendMessage(MessageAny<String>("kill"),"Engine");
 		if(mInput->wasKeyPressed("KC_HOME"))
-			mInput->toggleMouseGrab();
+			mInput->toggleMouseGrab();	
+
+		mCamera->mPosNode->setPosition(mTunnel->getPlayerPosition());
 		
 		//Vector3 move = 
 		//	mCamera->getDirection()*((mInput->isKeyDown("KC_S")*-1+mInput->isKeyDown("KC_W"))*1) +

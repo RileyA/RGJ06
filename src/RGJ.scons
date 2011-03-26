@@ -7,5 +7,6 @@ if os.name == 'nt':
 	env.Program('RGJ',source,CPPPATH=['../src'],LIBS=libs)
 else:
 	env = Environment();
+	env.Append(CCFLAGS = '-g')
 	env['ENV']['LD_RUN_PATH']='.'
 	env.Program('RGJ',source,CPPPATH=['../../OryxEngine/src'],LIBS=libs)

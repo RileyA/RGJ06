@@ -1,4 +1,9 @@
+#ifndef SPLINES_ARE_FUN
+#define SPLINES_ARE_FUN
+
 #include "RGJ.h"
+#include "OryxObject.h"
+#include "OgreSubsystem/Spline.h"
 
 namespace RGJ
 {
@@ -11,19 +16,24 @@ namespace RGJ
 
 		virtual void update(Real delta);
 
-		void generate(Vector3 position);
+		void generate();
+
+		Vector3 getPlayerPosition();
 
 	private:
 
-		Spline mSpline;
+		Spline* mSpline;
 
 		int mPtsGenerated;
 		int mCurrentChunk;
 
-		Vector mLastPoint;
+		Vector3 mLastPoint;
 		Rand mRand;
 
-		static const Real POINT_SPACING = 20.f;// 20m between catmull-rom spline points
+		Real mPlayerPos;
+		Real mPlayerSpeed;
+
+		static const Real POINT_SPACING = 30.f;// 30m between catmull-rom spline points
 		static const Real RING_SPACING = 2.f;// 2m between each ring
 		static const Real RING_RADIUS = 5.f; // 5m radius for each ring
 		static const int PTS_TO_GENERATE_AHEAD_OF_TIME = 50;
@@ -52,3 +62,5 @@ namespace RGJ
 
 	};
 }
+
+#endif

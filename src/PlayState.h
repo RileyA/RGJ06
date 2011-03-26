@@ -5,6 +5,7 @@
 #include "OryxGameState.h"
 #include "FPSCamera.h"
 #include "ExplosionManager.h"
+#include "SplineTunnel.h"
 
 namespace RGJ
 {
@@ -30,6 +31,7 @@ namespace RGJ
 		ExplosionManager* mExplosions;
 
 		BasicCharacterController* mPlayer;
+		SplineTunnel* mTunnel;
 	};
 }
 
