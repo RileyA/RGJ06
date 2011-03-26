@@ -29,7 +29,6 @@ namespace RGJ
 
 		FPSCamera* mCamera;
 		ExplosionManager* mExplosions;
-		ChunkManager* mChunks;
 
 		BasicCharacterController* mPlayer;
 	};

@@ -25,7 +25,7 @@
 #include "OryxColour.h"
 
 #define COLORVAL(x) Colour(x,x,x)
-#define ALLOW_BLOCK_TRANSPARENCY
+//#define ALLOW_BLOCK_TRANSPARENCY
 //#define BLOCK_NORMALS
 #define SMOOTH_LIGHTING
 
@@ -34,7 +34,7 @@ namespace Oryx
 	// NOTE: These must be multiples of CHUNK_STEP 
 	const byte CHUNK_STEP = 4;
 	const byte CHUNK_SIZE_X = 16;
-	const byte CHUNK_SIZE_Y = 32;
+	const byte CHUNK_SIZE_Y = 64;
 	const byte CHUNK_SIZE_Z = 16;
 
 	const byte CHUNK_STEPS_X = CHUNK_SIZE_X/CHUNK_STEP;

@@ -31,13 +31,13 @@ material MeinKraft
 				texture Atlas_Diffuse.png
 				tex_address_mode wrap
 			}
-			texture_unit
-			{
-				filtering trilinear
-				texture Atlas_Emissive.png
-				tex_address_mode wrap
-				colour_op add
-			}
+			//texture_unit
+			//{
+				//filtering trilinear
+				//texture Atlas_Emissive.png
+				//tex_address_mode wrap
+				//colour_op add
+			//}
 		}
 	}
 }

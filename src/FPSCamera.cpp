@@ -56,9 +56,9 @@ namespace Oryx
 
 	void FPSCamera::update(Real delta)
 	{
-		mPosNode->setPosition(mPosNode->getPosition()
-			+mCamera->getAbsoluteDirection()*20*delta*(mOIS->isKeyDown("KC_W")-mOIS->isKeyDown("KC_S"))
-			+mCamera->getAbsoluteRight()*20*delta*(mOIS->isKeyDown("KC_D")-mOIS->isKeyDown("KC_A")));
+		//mPosNode->setPosition(mPosNode->getPosition()
+		//	+mCamera->getAbsoluteDirection()*20*delta*(mOIS->isKeyDown("KC_W")-mOIS->isKeyDown("KC_S"))
+		//	+mCamera->getAbsoluteRight()*20*delta*(mOIS->isKeyDown("KC_D")-mOIS->isKeyDown("KC_A")));
 	}
 
 	void FPSCamera::look(const Message& msg)

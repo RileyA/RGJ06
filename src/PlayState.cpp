@@ -19,15 +19,13 @@ namespace RGJ
 
 		mInput->initInput(mGfx->getWindowHandle(), false);
 		mGfx->setBackgroundColor(Colour(0.f,0.f,0.05f));
-		mGfx->setLinearFog(5.f,30.f,Colour(0.f,0.f,0.05f));
+		//mGfx->setLinearFog(5.f,30.f,Colour(0.f,0.f,0.05f));
 		mBullet->startSimulation();
+		mBullet->setGravity(Vector3(0,-10,0));
 
 		Console* mConsole = new Console();
 		mCamera = new FPSCamera();
 		mExplosions = new ExplosionManager;
-		mChunks = new ChunkManager(Vector3(0,-10,0));
-
-		mPlayer = mBullet->createBasicCharacterController(Vector3(0,10,0));
 	}
 	//-----------------------------------------------------------------------
 	
@@ -37,25 +35,10 @@ namespace RGJ
 			sendMessage(MessageAny<String>("kill"),"Engine");
 		if(mInput->wasKeyPressed("KC_HOME"))
 			mInput->toggleMouseGrab();
-		mCamera->mPosNode->setPosition(mPlayer->getPosition()+Vector3(0,0.9f,0));
-		mChunks->generate(mCamera->getPosition());
-
-		if(mInput->wasButtonPressed("MB_Left"))
-		{
-			RaycastReport r = mBullet->raycast(mCamera->getPosition(),mCamera->getDirection(),10000.f,COLLISION_GROUP_3,COLLISION_GROUP_3);
-
-			if(r.hit&&r.userData)
-			{
-				Chunk* xc = (Chunk*)r.userData;
-				if(mInput->isKeyDown("KC_G"))
-				{
-					xc->killBlocks(r.position,4);
-					mExplosions->createExplosion(r.position);
-				}
-				else
-					xc->killBlock(r.position,r.normal);
-			}
-		}
+		
+		//Vector3 move = 
+		//	mCamera->getDirection()*((mInput->isKeyDown("KC_S")*-1+mInput->isKeyDown("KC_W"))*1) +
+		//	mCamera->mCamera->getAbsoluteRight()*(mInput->isKeyDown("KC_D")-mInput->isKeyDown("KC_A"));
 	}
 	//-----------------------------------------------------------------------
 	

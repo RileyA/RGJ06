@@ -25,7 +25,7 @@
 
 namespace Oryx
 {
-	const Real ChunkManager::UPDATE_INTERVAL = 0.1f;
+	const Real ChunkManager::UPDATE_INTERVAL = 0.5f;
 
 	ChunkManager::ChunkManager(Vector3 position)
 		:radius(8),mLast(10,10,10)
@@ -87,8 +87,8 @@ namespace Oryx
 
 		if(chunksRebuilt>0)
 		{
-			Logger::getPtr()->logMessage("Lighting Took: "+StringUtils::toString(
-				TimeManager::getPtr()->getTimeDecimal()-start));
+			//Logger::getPtr()->logMessage("Lighting Took: "+StringUtils::toString(
+			//	TimeManager::getPtr()->getTimeDecimal()-start));
 		}
 		
 		Real start2 = TimeManager::getPtr()->getTimeDecimal();
@@ -115,21 +115,24 @@ namespace Oryx
 			int i = (position.x+CHUNK_SIZE_X/2)/CHUNK_SIZE_X;
 			int k = (position.z+CHUNK_SIZE_Z/2)/CHUNK_SIZE_Z;
 
+			radius = 4;
 			ChunkCoords c = (i-radius,0,k-radius);
 
 			for(c.x = i-radius; c.x<=i+radius; ++c.x)
 				for(c.z = k-radius; c.z<=k+radius; ++c.z)
-					createChunk(c);
+				{
+					createChunk(c)->setActive(1);
+				}
 
-			int radius2 = radius==15 ? 5 : 2;
+			/*int radius2 = 4;
 			c = (i-radius2,0,k-radius2);
 
 			for(c.x = i-radius2; c.x<=i+radius2; ++c.x)
 				for(c.z = k-radius2; c.z<=k+radius2; ++c.z)
 					if(!mChunks[c]->isActive())
-						mChunks[c]->setActive(1);
+						mChunks[c]->setActive(1);*/
 		}
-		else if(mUpdateTimer > UPDATE_INTERVAL)
+		/*else if(mUpdateTimer > UPDATE_INTERVAL)
 		{
 			mUpdateTimer = 0.f;
 			std::priority_queue<ChunkCompare> pq;
@@ -137,7 +140,7 @@ namespace Oryx
 			int k = (position.z+CHUNK_SIZE_Z/2)/CHUNK_SIZE_Z;
 			position.y = 0;
 
-			int rad = 5;
+			int rad = 3;
 
 			ChunkCoords c = (i-rad,0,k-rad);
 			for(c.x = i-rad; c.x<=i+rad; ++c.x)
@@ -156,7 +159,7 @@ namespace Oryx
 					pq.top().chunk->setActive(true);
 				pq.pop();
 			}
-		}
+		}*/
 	}
 	//-----------------------------------------------------------------------
 	
@@ -245,22 +248,22 @@ namespace Oryx
 
 	Chunk* ChunkManager::createChunk(ChunkCoords c)
 	{
-		if(getChunk(c))
+		if((c.x>4||c.x<-4||c.z>4||c.z<-4)||getChunk(c))
 			return 0;
 
 		Chunk* ch = new Chunk(Vector3(c.x*CHUNK_SIZE_X-CHUNK_SIZE_X/2,c.y*CHUNK_SIZE_Y-CHUNK_SIZE_Y/2,
 			c.z*CHUNK_SIZE_Z-CHUNK_SIZE_Z/2),this,0);
 
 		//PerlinVolume v = PerlinVolume(mPerlin,c.x,c.y,c.z,0.35);// elevantion
-		PerlinVolume v2 = PerlinVolume(mPerlin,c.x,c.y,c.z,2.f);// roughness
+		//PerlinVolume v2 = PerlinVolume(mPerlin,c.x,c.y,c.z,2.f);// roughness
 		//PerlinVolume v3 = PerlinVolume(mPerlin,c.x,c.y,c.z,1.5f);// detail
 		
 		for(int i=0;i<CHUNK_SIZE_X;++i)
 			for(int k=0;k<CHUNK_SIZE_Z;++k)
 		{
-			int height = 14 + v2.sample(i,0,k)*5;//v.sample(i,0,k)*15.0 + v2.sample(i,0,k)*v3.sample(i,0,k)*11.0;
-			for(int j=0;j<height;++j)
-				ch->blocked[i][j][k] = (j==height-1) ? 4 : 3;
+			//int height = 7 + v2.sample(i,0,k)*5;//v.sample(i,0,k)*15.0 + v2.sample(i,0,k)*v3.sample(i,0,k)*11.0;
+			for(int j=0;j<32;++j)
+				ch->blocked[i][j][k] = (j==32-1) ? 4 : 3;
 			//addTree(ch->blocked,i,height-1,k);
 		}
 
