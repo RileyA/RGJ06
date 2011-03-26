@@ -31,7 +31,7 @@ namespace Oryx
 {
 	Chunk::Chunk(Vector3 position,ChunkManager* parent,byte* data)
 		:mPosition(position),mParent(parent),mBlock(0),mChunk(0),
-		mAtlasDimensions(16),mMaterial("MeinKraft"),mDirty(false),
+		mAtlasDimensions(4),mMaterial("MeinKraft"),mDirty(false),
 		mActive(false)
 	{	
 		mOgre = Engine::getPtr()->getSubsystem("OgreSubsystem")->castType<OgreSubsystem>();

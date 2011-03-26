@@ -251,17 +251,17 @@ namespace Oryx
 		Chunk* ch = new Chunk(Vector3(c.x*CHUNK_SIZE_X-CHUNK_SIZE_X/2,c.y*CHUNK_SIZE_Y-CHUNK_SIZE_Y/2,
 			c.z*CHUNK_SIZE_Z-CHUNK_SIZE_Z/2),this,0);
 
-		PerlinVolume v = PerlinVolume(mPerlin,c.x,c.y,c.z,0.35);// elevantion
-		PerlinVolume v2 = PerlinVolume(mPerlin,c.x,c.y,c.z,0.5);// roughness
-		PerlinVolume v3 = PerlinVolume(mPerlin,c.x,c.y,c.z,1.5f);// detail
+		//PerlinVolume v = PerlinVolume(mPerlin,c.x,c.y,c.z,0.35);// elevantion
+		PerlinVolume v2 = PerlinVolume(mPerlin,c.x,c.y,c.z,2.f);// roughness
+		//PerlinVolume v3 = PerlinVolume(mPerlin,c.x,c.y,c.z,1.5f);// detail
 		
 		for(int i=0;i<CHUNK_SIZE_X;++i)
 			for(int k=0;k<CHUNK_SIZE_Z;++k)
 		{
-			int height = 20 + v.sample(i,0,k)*15.0 + v2.sample(i,0,k)*v3.sample(i,0,k)*11.0;
+			int height = 14 + v2.sample(i,0,k)*5;//v.sample(i,0,k)*15.0 + v2.sample(i,0,k)*v3.sample(i,0,k)*11.0;
 			for(int j=0;j<height;++j)
 				ch->blocked[i][j][k] = (j==height-1) ? 4 : 3;
-			addTree(ch->blocked,i,height-1,k);
+			//addTree(ch->blocked,i,height-1,k);
 		}
 
 		for(int i=0;i<6;++i)
@@ -332,14 +332,17 @@ namespace Oryx
 		// TODO: make 2d/3d an option, or separate class?
 		double xd = static_cast<float>(x%4)/4;
 		double zd = static_cast<float>(z%4)/4;
-		x/=4;
-		z/=4;
+
+		return mData[x/4][0][z/4];
+
+		//x/=4;
+		//z/=4;
 		
 		// push along x axis
-		double r1 = mData[x][0][z] * (1-xd) + mData[x+1][0][z] * xd;
-		double r2 = mData[x][0][z+1] * (1-xd) + mData[x+1][0][z+1] * xd;
+		//double r1 = mData[x][0][z] * (1-xd) + mData[x+1][0][z] * xd;
+		//double r2 = mData[x][0][z+1] * (1-xd) + mData[x+1][0][z+1] * xd;
 
-		double out = r1 * (1 - zd) + r2 * zd;
-		return out;
+		//double out = r1 * (1 - zd) + r2 * zd;
+		//return out;
 	}
 }

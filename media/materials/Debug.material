@@ -27,8 +27,16 @@ material MeinKraft
 			texture_unit
 			{
 				filtering none
-				texture terrain.png
+				//filtering trilinear
+				texture Atlas_Diffuse.png
 				tex_address_mode wrap
+			}
+			texture_unit
+			{
+				filtering trilinear
+				texture Atlas_Emissive.png
+				tex_address_mode wrap
+				colour_op add
 			}
 		}
 	}

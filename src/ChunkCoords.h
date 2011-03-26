@@ -34,7 +34,7 @@ namespace Oryx
 	// NOTE: These must be multiples of CHUNK_STEP 
 	const byte CHUNK_STEP = 4;
 	const byte CHUNK_SIZE_X = 16;
-	const byte CHUNK_SIZE_Y = 64;
+	const byte CHUNK_SIZE_Y = 32;
 	const byte CHUNK_SIZE_Z = 16;
 
 	const byte CHUNK_STEPS_X = CHUNK_SIZE_X/CHUNK_STEP;
@@ -174,18 +174,11 @@ namespace Oryx
 	// map tex atlas positions to faces and block indices
 	const byte MAPPINGS[6][6] = 
 	{
-		/*{1,1,1,1,1,1},
+		{1,1,1,1,1,1},
 		{1,1,1,1,1,1},
 		{2,2,2,2,2,2},
 		{3,3,3,3,3,3},
-		{4,4,4,4,4,4}*/
-		// Minecraft "terrain.png" test:
-		{1,1,1,1,1,1},
-		{53,53,53,53,53,53},
-		{2,2,2,2,2,2},
-		{3,3,3,3,3,3},
-		{4,4,3,1,4,4},
-		{21,21,22,22,21,21}
+		{4,4,4,4,4,4}
 	};
 
 	const byte FILTERVERTEX[6] = {0,3,1,3,2,1}; // convert 0-5 to 0-3 with vertices (since I'm too lazy to use shared verts...)

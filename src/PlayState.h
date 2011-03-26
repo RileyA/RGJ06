@@ -3,6 +3,9 @@
 
 #include "RGJ.h"
 #include "OryxGameState.h"
+#include "ChunkManager.h"
+#include "FPSCamera.h"
+#include "ExplosionManager.h"
 
 namespace RGJ
 {
@@ -22,7 +25,13 @@ namespace RGJ
 		OISSubsystem* mInput;
 		ALSubsystem* mAudio;
 		ChaiscriptSubsystem* mScript;
+		BulletSubsystem* mBullet;
 
+		FPSCamera* mCamera;
+		ExplosionManager* mExplosions;
+		ChunkManager* mChunks;
+
+		BasicCharacterController* mPlayer;
 	};
 }
 
