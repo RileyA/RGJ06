@@ -34,27 +34,11 @@ namespace RGJ
 	{
 		mPlayerPos += mPlayerSpeed * delta;
 		mPlayerSpeed += delta;
-		//std::cout<<mPlayerPos<<"\n";
 		generate();// try and generate a bit more if need be...
 	}
 
 	void SplineTunnel::generate()
 	{
-		/*while(floor(mPlayerPos/POINT_SPACING)+PTS_TO_GENERATE_AHEAD_OF_TIME > mPtsGenerated)
-		{
-			Vector3 newPoint = Vector3(mRand.gen(-1,1),mRand.gen(-1,1),-5.5f);
-			newPoint.normalize();
-			newPoint*=POINT_SPACING;
-			mLastPoint += newPoint;
-			mSpline->addPoint(mLastPoint);
-			//Mesh* me = Engine::getPtr()->getSubsystem("OgreSubsystem")->castType<OgreSubsystem>()->createMesh("Ring.mesh");
-			//me->setPosition(mLastPoint);
-			//Engine::getPtr()->getSubsystem("OgreSubsystem")->castType<OgreSubsystem>()->getRootSceneNode()->addChild(me);
-			++mPtsGenerated;
-		}
-
-		mSpline->recalc();*/
-
 		Real length = POINT_SPACING * mPtsGenerated;
 		while(mCurrentChunk < (mPlayerPos/RING_OFFSET)+7)
 		{
