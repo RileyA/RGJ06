@@ -3,7 +3,6 @@
 
 #include "RGJ.h"
 #include "OryxGameState.h"
-#include "ChunkManager.h"
 #include "FPSCamera.h"
 #include "ExplosionManager.h"
 
