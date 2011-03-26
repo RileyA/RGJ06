@@ -40,8 +40,8 @@ namespace RGJ
 
 		static const Real RING_OFFSET = 60.f;
 		static const Real POINT_SPACING = 60.f;// 60m between catmull-rom spline points
-		static const Real RING_SPACING = 4.f;// 2m between each ring
-		static const int RINGS_PER_CHUNK = 15;
+		static const Real RING_SPACING = 2.f;// 2m between each ring
+		static const int RINGS_PER_CHUNK = 30;
 
 		static const int PTS_TO_GENERATE_AHEAD_OF_TIME = 25000;
 		static const Real RING_RADIUS = 5.f; // 5m radius for each ring

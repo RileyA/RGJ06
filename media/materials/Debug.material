@@ -54,3 +54,18 @@ material Ring
 		}
 	}
 }
+
+
+material Laser
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 0 1 0.7
+			}
+		}
+	}
+}
