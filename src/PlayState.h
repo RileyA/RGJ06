@@ -4,7 +4,6 @@
 #include "RGJ.h"
 #include "OryxGameState.h"
 #include "FPSCamera.h"
-#include "ExplosionManager.h"
 #include "SplineTunnel.h"
 
 namespace RGJ
@@ -20,6 +19,7 @@ namespace RGJ
 		virtual void deinit();
 
 		virtual void mouseMove(const Message& message);
+		virtual void hitLaser(const Message& message);
 
 	private:
 
@@ -30,12 +30,16 @@ namespace RGJ
 		BulletSubsystem* mBullet;
 
 		FPSCamera* mCamera;
-		ExplosionManager* mExplosions;
 
 		BasicCharacterController* mPlayer;
 		SplineTunnel* mTunnel;
 
 		Vector3 mPlayerPos;
+		GUIRectangle* crosshair;
+		GUIRectangle* g;// I don't even know why this is called 'g'...
+		Real cooloff;
+		bool blue;
+		bool done;
 	};
 }
 

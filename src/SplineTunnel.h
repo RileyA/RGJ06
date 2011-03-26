@@ -4,6 +4,7 @@
 #include "RGJ.h"
 #include "OryxObject.h"
 #include "OgreSubsystem/Spline.h"
+#include "OgreSubsystem/Mesh.h"
 
 namespace RGJ
 {
@@ -22,6 +23,12 @@ namespace RGJ
 		Vector3 getPlayerDirection();
 
 		Spline* getSpline(){return mSpline;};
+
+		void collide(Vector3 player)
+		{
+			for(int i=0;i<mChunks.size();++i)
+				mChunks[i]->collide(player,getSignal("hitLaser"));
+		}
 
 	private:
 
@@ -57,6 +64,16 @@ namespace RGJ
 			// builds the mesh from a given distance on
 			void gen(Real dist, SplineTunnel& spline, unsigned int ptgen,Rand* mRand);
 
+			void collide(Vector3 pos,Signal* s)
+			{
+				for(int i=0;i<mLasers.size();++i)
+				{
+					if(mLasers[i].collide(pos))
+						s->send(mLasers[i].isblue);
+						//std::cout<<"OWWW!\n";
+				}
+			}
+
 		private:
 
 			Mesh* mMesh;
@@ -70,34 +87,27 @@ namespace RGJ
 
 				Laser(Mesh* m)
 				{
+					active = false;
 					mMesh = m;
+					isblue = false;
 				}
 
 				void reactivate(Vector3 pos,Real roll, bool blue)
 				{
+					isblue = blue;
 					mMesh->setVisible(true);
 					mMesh->setPosition(pos);
 					mMesh->roll(roll);
 					mMesh->setMaterialName(blue ? "Laser" : "Laser_Orange");
 					mMesh->setScale(Vector3(RING_RADIUS*2,RING_RADIUS*2,RING_RADIUS*2));
-					actve = true;
+					active = true;
 				}
 
-				bool collide(Vector3 player)
-				{
-					if(!active)
-						return false;
-
-					Sphere sph(0.4f,player);
-					Ray r;
-					r.origin = mMesh.getPosition() + mMesh.getOrientation() * Vector3::UNIT_Y * 15;
-					r.direction = mMesh.getOrientation() * Vector3::NEGATIVE_UNIT_Y;
-					if(sph.intersects(r))
-						return true;
-				}
+				bool collide(Vector3 player);
 				
-				bool active = false;
+				bool active;
 				Mesh* mMesh;
+				bool isblue;
 
 			};
 			std::vector<Laser> mLasers;

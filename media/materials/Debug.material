@@ -77,10 +77,10 @@ material Laser_Orange
 	{
 		pass
 		{	
-			//scene_blend add
+			scene_blend add
 			texture_unit
 			{
-				colour_op_ex source1 src_manual src_current 1.0 0.75 0.5
+				colour_op_ex source1 src_manual src_current 0.35 0.2 0.1
 			}
 		}
 	}

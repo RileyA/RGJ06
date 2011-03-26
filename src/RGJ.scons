@@ -1,5 +1,5 @@
 import os
-source = ['RGJ.cpp','MenuState.cpp','PlayState.cpp','Console.cpp','ExplosionManager.cpp','FPSCamera.cpp','SplineTunnel.cpp']
+source = ['RGJ.cpp','MenuState.cpp','PlayState.cpp','Console.cpp','FPSCamera.cpp','SplineTunnel.cpp']
 libs = ['OryxEngine','ALSubsystem','OgreSubsystem','ChaiscriptSubsystem','OISSubsystem','ENetSubsystem','BulletSubsystem','noise']
 if os.name == 'nt':
 	env = Environment(ENV=os.environ,tools=['mingw','g++'],CXX=['g++'],CPPDEFINES=['WIN32'])

@@ -9,7 +9,7 @@ namespace RGJ
 		mSpline->setAutoCalc(false);
 		mLastPoint = Vector3(0,0,0);
 		mPlayerPos = 0.f;
-		mPlayerSpeed = 5.f;
+		mPlayerSpeed = 8.f;
 		mSpline->addPoint(mLastPoint);
 		mCurrentChunk = 0;
 		++mPtsGenerated;
@@ -23,17 +23,20 @@ namespace RGJ
 			++mPtsGenerated;
 		}
 		mSpline->recalc();
+		createSignal("hitLaser");
 	}
 
 	SplineTunnel::~SplineTunnel()
 	{
 		delete mSpline;
+		for(int i = 0;i<mChunks.size();++i)
+			delete mChunks[i];
 	}
 
 	void SplineTunnel::update(Real delta)
 	{
 		mPlayerPos += mPlayerSpeed * delta;
-		mPlayerSpeed += delta;
+		mPlayerSpeed += delta * (72.f/300.f);
 		generate();// try and generate a bit more if need be...
 	}
 
@@ -142,16 +145,16 @@ namespace RGJ
 					Engine::getPtr()->getSubsystem("OgreSubsystem")
 						->castType<OgreSubsystem>()->getRootSceneNode()->addChild(m);
 					mLasers.push_back(Laser(m));
-					mLasers.back().reactivate(rootPos+myPos+Vector3(mRand->gen(-3,3),mRand->gen(-3,3),0),mRand->gen(0,359)
+					mLasers.back().reactivate(rootPos+myPos+Vector3(mRand->gen(-3,3),mRand->gen(-3,3),0),
+						mRand->gen(0,VERTS_PER_RING-1)*(360/VERTS_PER_RING)
 						,mRand->gen(0,1)==0);
 					++lase;
 				}
 				else
 				{
-					mLasers[lase].reactivate(rootPos+myPos+Vector3(mRand->gen(-3,3),mRand->gen(-3,3),0),mRand->gen(0,359)
-						,mRand->gen(0,1)==0);
+					mLasers[lase].reactivate(rootPos+myPos+Vector3(mRand->gen(-3,3),mRand->gen(-3,3),0),
+						mRand->gen(0,VERTS_PER_RING-1)*(360/VERTS_PER_RING),mRand->gen(0,1)==0);
 					++lase;
-					std::cout<<"reused one!\n";
 				}
 				/*Mesh* m = Engine::getPtr()->getSubsystem("OgreSubsystem")->castType<OgreSubsystem>()->createMesh("Laser.mesh");
 				Engine::getPtr()->getSubsystem("OgreSubsystem")->castType<OgreSubsystem>()->getRootSceneNode()->addChild(m);
@@ -206,5 +209,23 @@ namespace RGJ
 		Vector3 out = nextDir - getPlayerPosition();
 		out.normalize();
 		return out;
+	}
+
+	bool SplineTunnel::Chunk::Laser::collide(Vector3 player)
+	{
+		if(!active||(player-mMesh->getPosition()).squaredLength()>49)
+			return false;
+
+		Sphere sph(0.8f,player);
+		Ray r;
+		r.origin = mMesh->getPosition() + mMesh->getOrientation() * Vector3::UNIT_Y * 15;
+		r.direction = mMesh->getOrientation() * Vector3::NEGATIVE_UNIT_Y;
+		if(sph.intersects(r))
+		{
+			active = false;
+			mMesh->setVisible(false);
+			return true;
+		}
+		return false;
 	}
 }
