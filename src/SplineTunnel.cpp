@@ -5,11 +5,12 @@ namespace RGJ
 	SplineTunnel::SplineTunnel()
 		:Object(),mPtsGenerated(0),mCurrentChunk(0),mRand(0)
 	{
+		gameover = false;
 		mSpline = new Spline();
 		mSpline->setAutoCalc(false);
 		mLastPoint = Vector3(0,0,0);
 		mPlayerPos = 0.f;
-		mPlayerSpeed = 8.f;
+		mPlayerSpeed = 10.f;
 		mSpline->addPoint(mLastPoint);
 		mCurrentChunk = 0;
 		++mPtsGenerated;
@@ -35,8 +36,9 @@ namespace RGJ
 
 	void SplineTunnel::update(Real delta)
 	{
+		if(gameover)return;
 		mPlayerPos += mPlayerSpeed * delta;
-		mPlayerSpeed += delta * (72.f/300.f);
+		mPlayerSpeed += delta * (50.f/300.f);
 		generate();// try and generate a bit more if need be...
 	}
 
@@ -70,6 +72,34 @@ namespace RGJ
 
 	}
 
+	void SplineTunnel::reset()
+	{
+		gameover = false;
+		mPlayerPos = 0.f;
+		mPlayerSpeed = 10.f;
+		mCurrentChunk = 0;
+		delete mSpline;
+		mSpline = new Spline();
+		mSpline->setAutoCalc(false);
+		mLastPoint = Vector3(0,0,0);
+		mPlayerPos = 0.f;
+		mPlayerSpeed = 10.f;
+		mSpline->addPoint(mLastPoint);
+		mCurrentChunk = 0;
+		mPtsGenerated = 0;
+		++mPtsGenerated;
+		for(int i = 0; i < PTS_TO_GENERATE_AHEAD_OF_TIME; ++i)
+		{
+			Vector3 newPoint = Vector3(mRand.gen(-1,1),mRand.gen(-1,1),-5.5f);
+			newPoint.normalize();
+			newPoint*=POINT_SPACING;
+			mLastPoint += newPoint;
+			mSpline->addPoint(mLastPoint);
+			++mPtsGenerated;
+		}
+		mSpline->recalc();
+	}
+
 	Vector3 SplineTunnel::getPlayerPosition()
 	{
 		Real length = POINT_SPACING * mPtsGenerated;
@@ -87,6 +117,11 @@ namespace RGJ
 
 	void SplineTunnel::Chunk::gen(Real dist, SplineTunnel& spline, unsigned int ptgen,Rand* mRand)
 	{
+		for(int i=0;i<mLasers.size();++i)
+		{
+			mLasers[i].active = false;
+			mLasers[i].mMesh->setVisible(false);
+		}
 		unsigned int lase = 0;
 		MeshData d = MeshData();
 		d.addTexcoordSet();
@@ -136,7 +171,7 @@ namespace RGJ
 			}
 
 
-			if(mRand->gen(0,2)==0)
+			if(mRand->gen(0,2)==0&&dist > 20.f)
 			{
 				if(mLasers.size()<=lase)
 				{

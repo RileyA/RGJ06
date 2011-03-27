@@ -34,11 +34,17 @@ namespace RGJ
 		BasicCharacterController* mPlayer;
 		SplineTunnel* mTunnel;
 
+		SoundPtr music;
 		Vector3 mPlayerPos;
 		GUIRectangle* crosshair;
 		GUIRectangle* frame;
 		GUIRectangle* blueb;
 		GUIRectangle* orangeb;
+		
+		GUIRectangle* gameover;
+		StaticText* score;
+		StaticText* best;
+
 		StaticText* distance;
 		StaticText* time;
 		GUIRectangle* g;// I don't even know why this is called 'g'...
@@ -48,6 +54,9 @@ namespace RGJ
 		int balance;
 		int limit;
 		Real mTime;
+		bool mGameOver;
+
+		Real mBest;
 	};
 }
 

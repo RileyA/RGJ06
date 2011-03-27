@@ -30,7 +30,11 @@ namespace RGJ
 				mChunks[i]->collide(player,getSignal("hitLaser"));
 		}
 
+		void reset();
+
 		Real getDist(){return mPlayerPos;}
+
+		bool gameover;
 
 	private:
 
@@ -55,6 +59,7 @@ namespace RGJ
 		static const int PTS_TO_GENERATE_AHEAD_OF_TIME = 25000;
 		static const Real RING_RADIUS = 5.f; // 5m radius for each ring
 		static const int VERTS_PER_RING = 32;
+
 		// a mesh representing a length of the tunnel
 		class Chunk
 		{
@@ -92,6 +97,10 @@ namespace RGJ
 					active = false;
 					mMesh = m;
 					isblue = false;
+				}
+
+				~Laser()
+				{
 				}
 
 				void reactivate(Vector3 pos,Real roll, bool blue)
