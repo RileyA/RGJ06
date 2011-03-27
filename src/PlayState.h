@@ -36,10 +36,18 @@ namespace RGJ
 
 		Vector3 mPlayerPos;
 		GUIRectangle* crosshair;
+		GUIRectangle* frame;
+		GUIRectangle* blueb;
+		GUIRectangle* orangeb;
+		StaticText* distance;
+		StaticText* time;
 		GUIRectangle* g;// I don't even know why this is called 'g'...
 		Real cooloff;
 		bool blue;
 		bool done;
+		int balance;
+		int limit;
+		Real mTime;
 	};
 }
 

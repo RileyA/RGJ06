@@ -17,11 +17,16 @@ namespace RGJ
 		mInput = dynamic_cast<OISSubsystem*>(mEngine->getSubsystem("OISSubsystem"));
 		mBullet = dynamic_cast<BulletSubsystem*>(mEngine->getSubsystem("BulletSubsystem"));
 
+		balance = 0;
+		limit = 2;
+
 		mInput->initInput(mGfx->getWindowHandle(), true);
 		mGfx->setBackgroundColor(Colour(0.f,0.f,0.05f));
 		mGfx->setLinearFog(5.f,65.f,Colour(0.f,0.f,0.05f));
 		//mGfx->setBackgroundColor(Colour(1.f,1.f,1.f));
 		//mGfx->setLinearFog(5.f,65.f,Colour(1.f,1.f,1.f));
+		//
+		Colour HUD = Colour(1,1,1,0.7f);
 
 		GUI* gui = mGfx->getGUI();
 		GUIScreen* scrn = mGfx->getGUI()->createScreen(mGfx->getMainViewport(),"hud","Test");
@@ -41,12 +46,24 @@ namespace RGJ
 		g->setBackground(Colour(0.8,0.5,0.2,0.8));
 
 		crosshair->setPosition(Vector2(0.5f,0.5f)-Vector2(32.f/1024.f,23.f/768.f));
+		crosshair->setBackground(HUD);
 
-		StaticText* txt = new StaticText(scrn->getRootElement(0),
+		distance = new StaticText(scrn->getRootElement(0),
 			"Title",0,20,Vector2(0.02f,0.02f),Vector2(0.4,1.f/20.f),"Distance: 0");
+		distance->setColour(HUD);
 
-		rect = new GUIRectangle(scrn->getRootElement(0),"Coloredrect01",Colour(0.2,0.2,0.5,0.f),
-			Colour(0.1,0.1,0.1,0.8),4.0,0,Vector2(0.2f,0.8f),Vector2(0.6f,0.05f));
+		time = new StaticText(scrn->getRootElement(0),
+			"Title",0,20,Vector2(0.02f,0.075f),Vector2(0.4,1.f/20.f),"Time: 00:00:00");
+		time->setColour(HUD);
+
+		frame = new GUIRectangle(scrn->getRootElement(0),"Coloredrect01",Colour(0.2,0.2,0.5,0.f),
+			HUD,4.0,0,Vector2(0.2f,0.88f),Vector2(0.6f,0.05f));
+
+		blueb = new GUIRectangle(scrn->getRootElement(0),"Coloredrect02",Colour(0.2,0.5,0.8,0.7f),
+			Colour(0.3,0.8,0.4,0.f),4.0,0,Vector2(0.2f,0.88f),Vector2(0.3f,0.05f));
+
+		orangeb = new GUIRectangle(scrn->getRootElement(0),"Coloredrect03",Colour(0.8,0.5,0.2,0.7f),
+			Colour(0.3,0.8,0.4,0.f),4.0,0,Vector2(0.5f,0.88f),Vector2(0.3f,0.05f));
 
 		mPlayerPos = Vector3(0,0,0);
 		
@@ -57,11 +74,13 @@ namespace RGJ
 		EventHandler::getDestination("OISSubsystem")->getSignal("mouseMoved")
 			->addListener(createSlot("mouseMoved",this,&PlayState::mouseMove));
 		mTunnel->getSignal("hitLaser")->addListener(createSlot("hitLaser",this,&PlayState::hitLaser));
+		mTime = 0.f;
 	}
 	//-----------------------------------------------------------------------
 	
 	void PlayState::update(Real delta)
 	{
+		mTime+=delta;
 		if(mInput->isKeyDown("KC_ESCAPE"))
 			sendMessage(MessageAny<String>("kill"),"Engine");
 		if(mInput->wasKeyPressed("KC_HOME"))
@@ -82,6 +101,17 @@ namespace RGJ
 		crosshair->setPosition(Vector2(0.5f,0.5f)-Vector2(32.f/1024.f,23.f/768.f) +
 			Vector2(mPlayerPos.x/27.f,mPlayerPos.y/27.f));
 
+		Vector2 hudOffset = Vector2(mPlayerPos.x/140.f,mPlayerPos.y/140.f);
+
+		frame->setPosition(Vector2(0.2,0.88)+hudOffset);
+		blueb->setPosition(Vector2(0.2,0.88)+hudOffset);
+		orangeb->setPosition(Vector2(0.5+balance*(0.3/limit),0.88)+hudOffset);
+		distance->setPosition(Vector2(0.05,0.05)+hudOffset);
+		time->setPosition(Vector2(0.05,0.105)+hudOffset);
+
+		blueb->setScale(Vector2(0.3f+balance*(0.3/limit),0.05f));
+		orangeb->setScale(Vector2(0.3f-balance*(0.3/limit),0.05f));
+
 		cooloff-=delta;
 		if(cooloff<=0.01f&&!done)
 		{
@@ -95,6 +125,17 @@ namespace RGJ
 			g->setBackground(blue ? Colour(0.2f,0.5f,0.8f,cooloff*2) :
 				Colour(0.9f,0.5f,0.2f,cooloff*2));
 		}
+
+
+		int mins = floor(mTime / 60);
+		Real tmpTime = mTime - 60*mins;
+		int secs = floor(tmpTime);
+		tmpTime -= floor(tmpTime);
+		int mills = tmpTime*100;
+
+		time->setCaption("Time: "+String(mins<10?"0":"")+StringUtils::toString(mins)+"::"+String(secs<10?"0":"")
+			+StringUtils::toString(secs)+"::"+String(mills<10?"0":"")+StringUtils::toString(mills));
+		distance->setCaption("Distance: "+StringUtils::toString(mTunnel->getDist())+"m");
 
 		//Vector3 move = 
 		//	mCamera->getDirection()*((mInput->isKeyDown("KC_S")*-1+mInput->isKeyDown("KC_W"))*1) +
@@ -126,6 +167,15 @@ namespace RGJ
 		{
 			done = false;
 			blue = *b;
+			if(blue)
+				++balance;
+			else
+				--balance;
+			if(balance==limit||-balance==limit)
+			{
+				Logger::getPtr()->logMessage("Failure!");
+				sendMessage(MessageAny<String>("kill"),"Engine");
+			}
 			cooloff = 0.4f;
 		}
 	}

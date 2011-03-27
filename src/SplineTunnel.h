@@ -30,6 +30,8 @@ namespace RGJ
 				mChunks[i]->collide(player,getSignal("hitLaser"));
 		}
 
+		Real getDist(){return mPlayerPos;}
+
 	private:
 
 		Spline* mSpline;
