@@ -2,7 +2,6 @@
 #include "PlayState.h"
 #include "OryxEventHandler.h"
 #include "OryxMessageAny.h"
-#include "Console.h"
 
 namespace RGJ
 {
@@ -13,7 +12,6 @@ namespace RGJ
 	{
 		mGfx = dynamic_cast<OgreSubsystem*>(mEngine->getSubsystem("OgreSubsystem"));
 		mAudio = dynamic_cast<ALSubsystem*>(mEngine->getSubsystem("ALSubsystem"));
-		mScript = dynamic_cast<ChaiscriptSubsystem*>(mEngine->getSubsystem("ChaiscriptSubsystem"));
 		mInput = dynamic_cast<OISSubsystem*>(mEngine->getSubsystem("OISSubsystem"));
 		mInput->initInput(mGfx->getWindowHandle(), true);
 

@@ -26,12 +26,9 @@ namespace RGJ
 		OgreSubsystem* mGfx;
 		OISSubsystem* mInput;
 		ALSubsystem* mAudio;
-		ChaiscriptSubsystem* mScript;
-		BulletSubsystem* mBullet;
 
 		FPSCamera* mCamera;
 
-		BasicCharacterController* mPlayer;
 		SplineTunnel* mTunnel;
 
 		SoundPtr music;

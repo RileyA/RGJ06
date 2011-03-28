@@ -1,12 +1,11 @@
 import os
-source = ['RGJ.cpp','MenuState.cpp','PlayState.cpp','Console.cpp','FPSCamera.cpp','SplineTunnel.cpp']
-libs = ['OryxEngine','ALSubsystem','OgreSubsystem','ChaiscriptSubsystem','OISSubsystem','ENetSubsystem','BulletSubsystem','noise']
+source = ['RGJ.cpp','MenuState.cpp','PlayState.cpp','FPSCamera.cpp','SplineTunnel.cpp']
+libs = ['OryxEngine','ALSubsystem','OgreSubsystem','OISSubsystem']
 if os.name == 'nt':
 	env = Environment(ENV=os.environ,tools=['mingw','g++'],CXX=['g++'],CPPDEFINES=['WIN32'])
 	env['ENV']['LD_RUN_PATH']='.'
 	env.Program('RGJ',source,CPPPATH=['../src'],LIBS=libs)
 else:
 	env = Environment();
-	env.Append(CCFLAGS = '-g')
 	env['ENV']['LD_RUN_PATH']='.'
 	env.Program('RGJ',source,CPPPATH=['../../OryxEngine/src'],LIBS=libs)

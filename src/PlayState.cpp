@@ -1,7 +1,6 @@
 #include "PlayState.h"
 #include "OryxEventHandler.h"
 #include "OryxMessageAny.h"
-#include "Console.h"
 #include "BulletSubsystem/BasicCharacterController.h"
 
 namespace RGJ
@@ -13,9 +12,7 @@ namespace RGJ
 	{
 		mGfx = dynamic_cast<OgreSubsystem*>(mEngine->getSubsystem("OgreSubsystem"));
 		mAudio = dynamic_cast<ALSubsystem*>(mEngine->getSubsystem("ALSubsystem"));
-		mScript = dynamic_cast<ChaiscriptSubsystem*>(mEngine->getSubsystem("ChaiscriptSubsystem"));
 		mInput = dynamic_cast<OISSubsystem*>(mEngine->getSubsystem("OISSubsystem"));
-		mBullet = dynamic_cast<BulletSubsystem*>(mEngine->getSubsystem("BulletSubsystem"));
 
 		mBest = 0.f;
 		std::ifstream file;
@@ -105,7 +102,6 @@ namespace RGJ
 		mPlayerPos = Vector3(0,0,0);
 		
 		mTunnel = new SplineTunnel();
-		Console* mConsole = new Console();
 		mCamera = new FPSCamera();
 
 		EventHandler::getDestination("OISSubsystem")->getSignal("mouseMoved")

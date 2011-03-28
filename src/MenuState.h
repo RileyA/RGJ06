@@ -24,7 +24,6 @@ namespace RGJ
 		OgreSubsystem* mGfx;
 		OISSubsystem* mInput;
 		ALSubsystem* mAudio;
-		ChaiscriptSubsystem* mScript;
 
 	};
 }
